@@ -1,15 +1,24 @@
 package co.cstad.sen.api.product;
 
-import java.util.List;
+import com.github.pagehelper.PageInfo;
+
+import java.util.UUID;
 
 public interface ProductService {
-    List<ProductDto> getAllProducts();
+    /**
+     * use to retrieve all users from database and response with pagination
+     *
+     * @param page  : location page
+     * @param limit : size of page
+     * @return PageInfo of Tutorial is pagination
+     */
+    PageInfo<ProductDto> getAllProducts(int page, int limit);
 
-    ProductDto getProductById(Long productId);
+    ProductDto getProductById(UUID productId);
 
-    ProductDto saveProduct(ProductDto productDto);
+    ProductDto saveProduct(ProductCreateDto productCreateDto);
 
-    void deleteProduct(Long productId);
-    ProductDto updateProduct(Long id, ProductDto productDto);
+    void deleteProduct(UUID productId);
+    ProductDto updateProduct(UUID uuid, ProductDto productDto);
 
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -17,8 +18,9 @@ import java.time.LocalDate;
 public class Product extends AuditEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "uuid", updatable = false, nullable = false)
+    private UUID uuid;
 
     @Column(nullable = false)
     private String title;
@@ -40,10 +42,6 @@ public class Product extends AuditEntity {
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean status = true;
-
-    @Column(nullable = false, unique = true)
-    private String uuid;
-
     public static JsonToken builder() {
         return null;
     }
