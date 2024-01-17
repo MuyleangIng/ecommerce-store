@@ -27,7 +27,7 @@ public class SwaggerConfiguration {
                         .description("Store-ecommerce API Documentation"))
                 .servers(new ArrayList<>(){{
                     add(new Server().url("http://localhost:"+port).description("Local ENV"));
-                    add(new Server().url("https://devv1.sen-pai.live").description("Dev ENV"));
+                    add(new Server().url("https://store.automatex.dev").description("Dev ENV"));
                 }});
     }
 }

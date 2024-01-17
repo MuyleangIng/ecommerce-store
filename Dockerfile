@@ -1,11 +1,15 @@
-FROM gradle:8.4-jdk17-alpine As builder
-ENV SPRING_PROFILES_ACTIVE=prod
+# Builder stage
+FROM gradle:8.4-jdk17-alpine AS builder
 WORKDIR /app
 COPY . .
 # Build the application
 RUN gradle build --no-daemon
-# Move the jar file from the build/libs directory to the Docker image
-RUN mv ./build/libs/*-SNAPSHOT.jar ecommerce.jar
-VOLUME /images
+
+# Final stage
+FROM openjdk:17-alpine
+WORKDIR /app
+# Copy the built JAR from the builder stage
+COPY --from=builder /app/build/libs/automatex-api-1.0.0-SNAPSHOT.jar /app/
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=\${SPRING_PROFILES_ACTIVE}", "ecommerce.jar"]
+VOLUME /images
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/automatex-api-1.0.0-SNAPSHOT.jar"]

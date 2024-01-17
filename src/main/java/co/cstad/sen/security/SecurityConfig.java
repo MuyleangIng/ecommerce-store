@@ -69,6 +69,10 @@ public class SecurityConfig {
             // Get current user authenticated
             request.requestMatchers("/api/v1/auth/me").authenticated();
             request.requestMatchers("/api/v1/auth/me/update").authenticated();
+            // product
+            request.requestMatchers("/api/v1/products").anonymous();
+            // get all product
+            request.requestMatchers("/api/v1/products/store/**").authenticated();
             // Deployment app
             request.requestMatchers("/api/v1/deploy-apps/**").authenticated();
             // File Upload and Download

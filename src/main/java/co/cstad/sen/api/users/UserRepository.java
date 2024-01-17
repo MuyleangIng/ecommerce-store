@@ -40,10 +40,6 @@ public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificati
     @Query("UPDATE User u SET u.lastLogin = CURRENT_TIMESTAMP WHERE u.email = :email")
     void updateLastLoginByEmail(String email);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE User u SET u.gitId = :gitId WHERE u.email = :email")
-    void updateGitIdByEmail(Integer gitId, String email);
 
     @Transactional
     @Modifying

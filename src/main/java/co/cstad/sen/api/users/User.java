@@ -33,13 +33,6 @@ public class User {
     @Transient
     private String uuid;
 
-    @Column(name = "git_id")
-    @JsonIgnore
-    private Integer gitId;
-
-    @Transient
-    @JsonIgnore
-    private String gitToken;
 
     @Column(name = "avatar")
     private String avatar;
@@ -91,7 +84,6 @@ public class User {
     private Timestamp lastLogin;
 
     @Column(name = "verified_code", unique = true)
-    @JsonIgnore
     private UUID verifiedCode;
 
     @Column(name = "provider", nullable = false)
@@ -117,7 +109,6 @@ public class User {
     }
 
     public User(Integer gitId, String firstName, String lastName, String username , String email, String password, LocalDateTime verified){
-        this.gitId = gitId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

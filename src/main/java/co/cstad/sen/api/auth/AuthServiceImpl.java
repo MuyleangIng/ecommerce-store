@@ -132,37 +132,29 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public RegisterResponse userRegister(RegisterDto registerDto) {
+        // Check if the username already exists in the database
+        if (userRepository.existsByUsername(registerDto.username())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
+        }
+
+        if (userRepository.existsByEmail(registerDto.email())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists.");
+        }
+
         Role role = roleRepository.findByName(RoleEnum.DEVELOPER.toString())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found."));
         UUID verifiedCode = UUID.randomUUID();
         User user = new User(registerDto.username(), registerDto.email(), encoder.encode(registerDto.password()), verifiedCode);
         user.setRoles(List.of(role));
         user = userRepository.save(user);
-        String message = """
-                ---------------- User registered ----------------:
-                Id: <code>%s</code>
-                Uuid: <code>%s</code>
-                Username: <code>%s</code>
-                Email: <code>%s</code>
-                verifiedCode: <code>%s</code>
-                """.formatted(
-                user.getId(),
-                user.getUuid(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getVerifiedCode()
-        );
 
-
-        // Create git account
-
-//         Send notification
-        this.sendNotifications(user, "Register new account",message);
-        return RegisterResponse.builder()
+        RegisterResponse registerResponse = RegisterResponse.builder()
                 .user(user)
                 .build();
 
+        return registerResponse;
     }
+
 
 
 
@@ -204,17 +196,7 @@ public class AuthServiceImpl implements AuthService{
         user.setVerifiedCode(null);
         user.setVerified(LocalDateTime.now());
         userRepository.save(user);
-        notifications.sendTelegramBot(
-                user,
-                "Reset Password Success",
-                """
-                        ID: <code>%s</code>
-                        UUID: <code>%s</code>
-                        Username: <code>%s</code>
-                        Email: <code>%s</code>
-                        lastLogin: <code>%s</code>
-                        """.formatted(user.getId(), user.getUuid(), user.getUsername(), user.getEmail(), user.getLastLogin())
-        );
+
     }
 
     private LoginResponse loginWithSocial(String email, SocialEnum socialEnum) {
@@ -276,8 +258,6 @@ public class AuthServiceImpl implements AuthService{
         return LoginResponse.builder()
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
-                .gitId(user.getGitId())
-                .gitAccessToken(user.getGitToken())
                 .user(user)
                 .build();
     }

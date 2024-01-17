@@ -16,13 +16,13 @@ import lombok.Builder;
 @Schema(name = "Register", description = "Register")
 public record RegisterDto(
         @NotBlank(message = "The field username is required.")
-        @Size(min = 6, max = 50, message = "Username must be between 8 and 50 characters")
-        @Schema(name = "username", description = "username", defaultValue = "begoingtodev")
+        @Size(min = 6, max = 50, message = "Username must be between 6 and 50 characters")
+        @Schema(name = "username", description = "username", defaultValue = "cstad1234")
         @UniqueUsername
         @Pattern(regexp = "^[a-z-0-9]*$", message = "Username must be alphanumeric with no spaces")
         String username,
         @NotBlank(message = "The field email is required.")
-        @Schema(name = "email", description = "email", defaultValue = "begoingtodev@gmail.com")
+        @Schema(name = "email", description = "email", defaultValue = "cstad1234@gmail.com")
         @Email
         @UniqueEmail
         String email,
