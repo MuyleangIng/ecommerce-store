@@ -77,7 +77,7 @@ public class SecurityConfig {
             request.requestMatchers("/api/v1/deploy-apps/**").authenticated();
             // File Upload and Download
             request.requestMatchers("/api/v1/files/download/**").anonymous();
-            request.requestMatchers("/api/v1/files/**").authenticated();
+//            request.requestMatchers("/api/v1/files/**").authenticated();
             // git
             request.requestMatchers("/api/v1/git/**").hasAnyAuthority("SCOPE_ROLE_ADMIN");
             // Jenkins
