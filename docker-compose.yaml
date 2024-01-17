@@ -10,7 +10,7 @@ services:
     ports:
       - '3014:8080'
     volumes:
-      - '/home/automatex/deployment/file-upload:/app/file-upload'
+      - '/home/automatex/deployment/file-upload:/images'
 networks:
   default:
     external: true
