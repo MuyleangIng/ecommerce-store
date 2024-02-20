@@ -70,7 +70,7 @@ public class SecurityConfig {
             request.requestMatchers("/api/v1/auth/me").authenticated();
             request.requestMatchers("/api/v1/auth/me/update").authenticated();
             // product
-            request.requestMatchers("/api/v1/products").anonymous();
+            request.requestMatchers("/api/v1/products").permitAll();
             // get all product
             request.requestMatchers("/api/v1/products/store/**").authenticated();
             // Deployment app
