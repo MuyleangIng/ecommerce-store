@@ -10,7 +10,7 @@ services:
     ports:
       - '3245:8080'
     volumes:
-      - '/home/automatex/deployment/file-upload:/images'
+      - '/home/istad/kak-bank/images:/images'
 networks:
   default:
     external: true
